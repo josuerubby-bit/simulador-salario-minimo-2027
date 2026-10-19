@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador del Salario Mínimo 2027 · Colombia</title>
+<meta name="description" content="Simulador interactivo de la negociación del salario mínimo 2027 en Colombia: incrementos de 5% a 12%, inflación proyectada, productividad, costo patronal y línea de tiempo de la concertación.">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="31" height="31" rx="8" stroke="currentColor" stroke-width="2.5"/>
+        <path d="M9 23.5V19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M14.5 23.5V15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M20 23.5v-13" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M25.5 23.5V9" stroke="#a8771a" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <span class="brand-name">Simulador SMLV 2027</span>
+        <span class="brand-sub">Concertación · Colombia</span>
+      </div>
+    </div>
+    <nav class="nav-links" aria-label="Secciones">
+      <a href="#simulador">Simulador</a>
+      <a href="#costos">Costos</a>
+      <a href="#cronograma">Cronograma</a>
+      <a href="#actores">Actores</a>
+      <a href="#fuentes">Fuentes</a>
+    </nav>
+    <button class="theme-btn" data-theme-toggle aria-label="Cambiar tema"></button>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <span class="kicker">Negociación tripartita · Diciembre 2026</span>
+    <h1>¿Cuánto subiría el <em>salario mínimo</em> en Colombia en 2027?</h1>
+    <p class="lede">
+      Ajusta el incremento (5%–12%), la inflación proyectada y la productividad para estimar el nuevo salario,
+      su poder adquisitivo real y el costo mensual para las empresas. Incluye el cronograma legal de la
+      concertación entre el Gobierno, los gremios y los sindicatos bajo la
+      <a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=4928" target="_blank" rel="noopener">Ley 278 de 1996</a>.
+    </p>
+    <div class="base-strip">
+      <div class="base-card">
+        <span class="lbl">SMLV vigente 2026</span>
+        <div class="val">$1.750.905</div>
+        <span class="note">Decreto <a class="footnote-link" href="https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=192181" target="_blank" rel="noopener">159 de 2026</a> (transitorio), que mantiene el valor del Decreto 1469 de 2025 (+23% vs. 2025)</span>
+      </div>
+      <div class="base-card">
+        <span class="lbl">Auxilio transporte 2026</span>
+        <div class="val">$249.095</div>
+        <span class="note">Decreto <a class="footnote-link" href="https://www.cancilleria.gov.co/normograma/compilacion/docs/pdf/decreto_1470_2025.pdf" target="_blank" rel="noopener">1470 de 2025</a> (hasta 2 SMLV)</span>
+      </div>
+      <div class="base-card">
+        <span class="lbl">Ingreso total 2026</span>
+        <div class="val gold">$2.000.000</div>
+        <span class="note">Salario + auxilio de transporte</span>
+      </div>
+      <div class="base-card">
+        <span class="lbl">IPC septiembre 2026</span>
+        <div class="val">6,29%</div>
+        <span class="note">DANE · variación anual · <a class="footnote-link" href="https://www.infobae.com/colombia/2026/10/07/salario-minimo-de-2027-el-dane-revelo-el-dato-de-inflacion-de-septiembre-de-2026-clave-para-el-aumento-del-sueldo-para-millones-de-trabajadores/" target="_blank" rel="noopener">detalle</a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIMULADOR -->
+  <section id="simulador">
+    <h2 class="section-title"><span class="num">01</span> Panel de simulación</h2>
+    <p class="section-sub">
+      Los valores por defecto usan las proyecciones más recientes: inflación de cierre 2026 en 6,9% e inflación
+      2027 en 4,3% según el <a href="https://www.larepublica.co/economia/informe-de-politica-monetaria-del-banco-de-la-republica-de-julio-de-2026-4451284" target="_blank" rel="noopener">Banco de la República</a>,
+      y productividad total de los factores (PTF) de 0,91% medida por el DANE
+      (<a class="footnote-link" href="https://www.suin-juriscol.gov.co/clp/contenidos.dll/Decretos/30055940?fn=document-frame.htm$f=templates$3.0" target="_blank" rel="noopener">referencia de 2025</a>).
+    </p>
+
+    <div class="grid-sim">
+      <!-- CONTROLES -->
+      <div class="controls" aria-label="Controles del simulador">
+        <h2>Variables</h2>
+
+        <div class="ctl">
+          <div class="ctl-head">
+            <label for="r-incremento">Incremento del salario</label>
+            <output id="o-incremento" for="r-incremento">8,0%</output>
+          </div>
+          <input type="range" id="r-incremento" min="5" max="12" step="0.1" value="8">
+          <div class="chips" role="group" aria-label="Escenarios rápidos">
+            <button class="chip" data-g="5">5%</button>
+            <button class="chip" data-g="6">6%</button>
+            <button class="chip" data-g="7">7%</button>
+            <button class="chip" data-g="8">8%</button>
+            <button class="chip" data-g="8.5">8,5%</button>
+            <button class="chip" data-g="9">9%</button>
+            <button class="chip" data-g="10">10%</button>
+            <button class="chip" data-g="12">12%</button>
+          </div>
+          <p class="hint">Rango solicitado: 5% a 12%. Los analistas proyectan entre 6% y 10% (<a class="footnote-link" href="https://www.elpais.com.co/colombia/salario-minimo-2027-expertos-financieros-preven-un-aumento-de-148827-de-acuerdo-a-la-variabilidad-de-la-inflacion-0613.html" target="_blank" rel="noopener">Davivienda 8,5%</a>; Corficolombiana ≈8%; <a class="footnote-link" href="https://www.portafolio.co/economia/salario-minimo-de-2027-se-perfila-entre-9-y-10-mientras-arranca-la-negociacion-entre-gobierno-y-sectores-503771" target="_blank" rel="noopener">Credicorp 9%–10%</a>).</p>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl-head">
+            <label for="r-infla26">Inflación cierre 2026 (IPC)</label>
+            <output id="o-infla26" for="r-infla26">6,9%</output>
+          </div>
+          <input type="range" id="r-infla26" min="3" max="10" step="0.1" value="6.9">
+          <p class="hint">Proyección del Banco de la República (julio 2026). El IPC observado a septiembre es 6,29% (<a class="footnote-link" href="https://www.infobae.com/colombia/2026/10/07/salario-minimo-de-2027-el-dane-revelo-el-dato-de-inflacion-de-septiembre-de-2026-clave-para-el-aumento-del-sueldo-para-millones-de-trabajadores/" target="_blank" rel="noopener">DANE</a>). La Sentencia C-815 de 1999 fija la inflación causada como piso de recuperación del poder adquisitivo.</p>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl-head">
+            <label for="r-infla27">Inflación 2027 (proyectada)</label>
+            <output id="o-infla27" for="r-infla27">4,3%</output>
+          </div>
+          <input type="range" id="r-infla27" min="1" max="8" step="0.1" value="4.3">
+          <p class="hint">Proyección del Banco de la República para 2027. Se usa para estimar la ganancia real del salario durante el año.</p>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl-head">
+            <label for="r-prod">Productividad (PTF)</label>
+            <output id="o-prod" for="r-prod">0,91%</output>
+          </div>
+          <input type="range" id="r-prod" min="-1" max="3" step="0.01" value="0.91">
+          <p class="hint">Último dato oficial presentado a la mesa de concertación: PTF de 0,91% (referencia de 2025 con corte al III trimestre, <a class="footnote-link" href="https://www.suin-juriscol.gov.co/clp/contenidos.dll/Decretos/30055940?fn=document-frame.htm$f=templates$3.0" target="_blank" rel="noopener">DANE</a>). El dato de 2026 se presentará en la Subcomisión de Productividad antes de la fijación.</p>
+        </div>
+
+        <div class="ctl">
+          <div class="ctl-head">
+            <label for="r-aux">Aumento del auxilio transporte</label>
+            <output id="o-aux" for="r-aux">8,0%</output>
+          </div>
+          <input type="range" id="r-aux" min="0" max="15" step="0.1" value="8">
+          <div class="check-row">
+            <input type="checkbox" id="c-linkaux" checked>
+            <label for="c-linkaux">Vincular al incremento del salario</label>
+          </div>
+          <p class="hint">El auxilio se fija por decreto separado (Decreto 1470 de 2025 para 2026). Vincular su incremento al del salario es un supuesto editable de este simulador; en 2026 subió 24,5%, algo más que el salario.</p>
+        </div>
+
+        <fieldset class="ctl">
+          <legend class="ctl-head" style="margin-bottom:var(--space-2)"><label>Perfil del empleador</label></legend>
+          <div class="radio-row">
+            <label class="radio-opt">
+              <input type="radio" name="perfil" value="exonerado" checked>
+              <span><span class="t">Exonerado (art. 114-1 E.T.)</span>
+              <span class="d">Empleador que cumple los requisitos del artículo 114-1 del Estatuto Tributario (trabajadores que devengan menos de 10 SMLV). No paga salud patronal (8,5%), SENA (2%) ni ICBF (3%).</span></span>
+            </label>
+            <label class="radio-opt">
+              <input type="radio" name="perfil" value="noexonerado">
+              <span><span class="t">No exonerado</span>
+              <span class="d">Persona natural con un solo trabajador u otros casos sin exoneración. Paga todos los aportes patronales.</span></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="ctl">
+          <label for="s-arl" style="font-size:var(--text-sm);font-weight:700">Clase de riesgo ARL</label>
+          <select id="s-arl" style="margin-top:var(--space-2)">
+            <option value="0.522" selected>I (0,522%) — oficinas</option>
+            <option value="1.044">II (1,044%) — ventas, servicios</option>
+            <option value="2.436">III (2,436%) — manufactura</option>
+            <option value="4.350">IV (4,350%) — industria de riesgo</option>
+            <option value="6.960">V (6,96%) — minería, construcción</option>
+          </select>
+          <p class="hint">El aporte a riesgos laborales corre por cuenta del empleador (0,522% a 6,96%).</p>
+        </div>
+      </div>
+
+      <!-- RESULTADOS -->
+      <div class="results">
+        <div class="kpis">
+          <div class="kpi main">
+            <span class="lbl">Salario mínimo 2027</span>
+            <div class="val" id="k-salario">—</div>
+            <span class="delta" id="k-aumento">—</span>
+          </div>
+          <div class="kpi">
+            <span class="lbl">Ingreso total con auxilio</span>
+            <div class="val" id="k-total">—</div>
+            <span class="delta" id="k-auxval">—</span>
+          </div>
+          <div class="kpi gold">
+            <span class="lbl">Ganancia real en 2027</span>
+            <div class="val" id="k-real">—</div>
+            <span class="delta" id="k-realnote">—</span>
+          </div>
+          <div class="kpi">
+            <span class="lbl">Costo mensual empresa</span>
+            <div class="val" id="k-costo">—</div>
+            <span class="delta" id="k-costonote">—</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Referencia técnica: inflación + productividad</h3>
+          <p class="p-note">
+            La convención habitual en la mesa de concertación suma la inflación causada y la productividad (no es una fórmula legal
+            obligatoria: la Ley 278 de 1996 exige ponderar también PIB, participación de salarios en el ingreso nacional y meta de inflación).
+          </p>
+          <div class="ref-row">
+            <span class="eq" id="ref-eq">—</span>
+            <span class="ref-verdict" id="ref-verdict">—</span>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h3>Desglose del costo mensual (2027 vs. 2026)</h3>
+            <p class="p-note">Costo mensual estimado con provisiones de prestaciones. Salario + auxilio + seguridad social + parafiscales + prestaciones.</p>
+            <div class="chart-box"><canvas id="ch-costos" role="img" aria-label="Gráfico de costos mensuales 2026 frente a 2027"></canvas></div>
+          </div>
+          <div class="panel">
+            <h3>Ganancia real según el incremento</h3>
+            <p class="p-note">Poder adquisitivo del salario en 2027 frente a la inflación proyectada. Bajo 0% el salario pierde contra los precios.</p>
+            <div class="chart-box"><canvas id="ch-real" role="img" aria-label="Gráfico de ganancia real según incremento"></canvas></div>
+          </div>
+        </div>
+
+        <div class="panel" id="costos">
+          <h3>Comparativa de escenarios de incremento</h3>
+          <p class="p-note">
+            Valores calculados con el perfil de empleador y clase ARL seleccionados. El auxilio de transporte usa el porcentaje
+            seleccionado en su control (vinculado al salario o fijo). En pantallas pequeñas, desliza la tabla horizontalmente
+            para ver todas las columnas.
+          </p>
+          <div class="tbl-wrap">
+            <table class="data" id="tbl-escenarios">
+              <thead>
+                <tr>
+                  <th scope="col">Incremento</th>
+                  <th scope="col">Salario 2027</th>
+                  <th scope="col">Auxilio</th>
+                  <th scope="col">Ingreso total</th>
+                  <th scope="col">Real*</th>
+                  <th scope="col">Costo/mes</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <p class="p-note" style="margin-top:var(--space-3);margin-bottom:0">
+            * Frente a la inflación 2027 seleccionada (<span id="tbl-pi">—</span>). Costo mensual estimado con provisiones para el perfil
+            de empleador seleccionado.
+          </p>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h3>Bolsillo del trabajador</h3>
+            <p class="p-note">Descuentos de ley sobre el salario base (el auxilio de transporte no cotiza).</p>
+            <div class="tbl-wrap">
+              <table class="data" id="tbl-trabajador">
+                <tbody>
+                  <tr><td>Salario base 2027</td><td class="b" id="t-base">—</td></tr>
+                  <tr><td>Auxilio de transporte</td><td class="b" id="t-aux">—</td></tr>
+                  <tr><td>Salud (4%)</td><td id="t-salud">—</td></tr>
+                  <tr><td>Pensión (4%)</td><td id="t-pension">—</td></tr>
+                  <tr><td>Recibido en mano (aprox.)</td><td class="b" id="t-neto">—</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Cargos al empleador (mensual)</h3>
+            <p class="p-note">Calculados sobre el salario base como IBC. El perfil exonerado no paga salud, SENA ni ICBF. Por mandato del artículo 7 de la Ley 1ª de 1963, el auxilio de transporte se incluye en la base de prima y cesantías (con sus intereses), pero no en la de vacaciones (<a class="footnote-link" href="https://www.gerencie.com/prestaciones-sociales.html" target="_blank" rel="noopener">Gerencie</a>, <a class="footnote-link" href="https://actualicese.com/auxilio-de-transporte/" target="_blank" rel="noopener">Actualícese</a>).</p>
+            <div class="tbl-wrap">
+              <table class="data" id="tbl-empleador">
+                <tbody>
+                  <tr><td>Salud patronal (8,5%)</td><td id="e-salud">—</td></tr>
+                  <tr><td>Pensión patronal (12%)</td><td id="e-pension">—</td></tr>
+                  <tr><td>ARL</td><td id="e-arl">—</td></tr>
+                  <tr><td>Caja de compensación (4%)</td><td id="e-caja">—</td></tr>
+                  <tr><td>SENA (2%) + ICBF (3%)</td><td id="e-paraf">—</td></tr>
+                  <tr><td>Prestaciones (prima, cesantías, intereses, vacaciones)</td><td id="e-prest">—</td></tr>
+                  <tr><td>Costo total estimado</td><td class="b" id="e-total">—</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CRONOGRAMA -->
+  <section id="cronograma">
+    <h2 class="section-title"><span class="num">02</span> Línea de tiempo de la concertación</h2>
+    <p class="section-sub">
+      Ruta hacia el salario mínimo 2027 según la Ley 278 de 1996 y el calendario abierto por la Comisión Permanente de
+      Concertación de Políticas Salariales y Laborales. Los hitos se marcan como <span class="badge hecho">hecho</span>,
+      <span class="badge legal">plazo legal</span> o <span class="badge est">estimado</span>.
+    </p>
+    <div class="timeline">
+      <div class="tl-item done">
+        <div class="tl-date">7 de octubre de 2026</div>
+        <div class="tl-badges"><span class="badge hecho">Hecho</span></div>
+        <p>El <b>DANE publica el IPC de septiembre: 6,29% anual</b> (5,74% acumulado del año; <a class="footnote-link" href="https://www.infobae.com/colombia/2026/10/07/salario-minimo-de-2027-el-dane-revelo-el-dato-de-inflacion-de-septiembre-de-2026-clave-para-el-aumento-del-sueldo-para-millones-de-trabajadores/" target="_blank" rel="noopener">detalle</a>). Es la última referencia
+        de inflación conocida antes de que arranquen las mesas formales de negociación.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">9 y 13 de octubre de 2026</div>
+        <div class="tl-badges"><span class="badge hecho">Programado</span></div>
+        <p>Cierre del plazo para que gremios y centrales entregen <b>comentarios a la mesa técnica y jurídica</b> (9 de octubre)
+        y reunión de la Comisión para revisar los aportes recibidos (13 de octubre) (<a class="footnote-link" href="https://www.eltiempo.com/economia/finanzas-personales/salario-minimo-2027-gobierno-empresas-y-sindicatos-tuvieron-la-primera-reunion-para-revisar-el-alza-que-acordaron-3590648" target="_blank" rel="noopener">El Tiempo</a>).</p>
+      </div>
+      <div class="tl-item est">
+        <div class="tl-date">Finales de noviembre de 2026</div>
+        <div class="tl-badges"><span class="badge est">Estimado</span></div>
+        <p>Instalación formal de la mesa tripartita y de la <b>Subcomisión de Productividad</b>: el DANE presenta las cifras de
+        productividad de 2026 y el Banco de la República sus proyecciones de inflación y PIB. En años recientes la mesa se
+        instaló entre finales de noviembre y el 1° de diciembre.</p>
+      </div>
+      <div class="tl-item est">
+        <div class="tl-date">≈ 5 de diciembre de 2026</div>
+        <div class="tl-badges"><span class="badge est">Estimado</span></div>
+        <p>Publicación del <b>IPC de noviembre</b>, el dato que tradicionalmente sirve de piso para la negociación del
+        incremento (junto con la productividad).</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">15 de diciembre de 2026</div>
+        <div class="tl-badges"><span class="badge legal">Plazo legal · Ley 278/1996</span></div>
+        <p><b>Fecha límite para que la Comisión decida por consenso.</b> Si no hay acuerdo, las partes que no estén de acuerdo
+        deben presentar por escrito sus salvedades dentro de las 48 horas siguientes (<a class="footnote-link" href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=4928" target="_blank" rel="noopener">art. 8, parágrafo</a>).</p>
+      </div>
+      <div class="tl-item est">
+        <div class="tl-date">≈ 17 de diciembre de 2026 (48 horas después)</div>
+        <div class="tl-badges"><span class="badge legal">Plazo legal</span></div>
+        <p>Las partes que no estén de acuerdo deben <b>explicar por escrito las razones de su salvedad dentro de las 48 horas</b>
+        siguientes al 15 de diciembre.</p>
+      </div>
+      <div class="tl-item est">
+        <div class="tl-date">≈ 19 de diciembre de 2026 (48 horas más)</div>
+        <div class="tl-badges"><span class="badge legal">Plazo legal</span></div>
+        <p>Las demás partes deben <b>estudiar las salvedades y fijar su posición</b> en un nuevo término de 48 horas, y la Comisión
+        debe reunirse de nuevo a buscar el consenso.</p>
+      </div>
+      <div class="tl-item est">
+        <div class="tl-date">19 a 29 de diciembre de 2026</div>
+        <div class="tl-badges"><span class="badge est">Reuniones adicionales</span></div>
+        <p><b>La Comisión puede convocar sesiones adicionales</b> para intentar el consenso. No es un periodo legalmente fijado:
+        la ley solo exige que el proceso se agote antes del límite del 30 de diciembre.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">30 de diciembre de 2026</div>
+        <div class="tl-badges"><span class="badge legal">Plazo límite</span></div>
+        <p>Si definitivamente no hay consenso, <b>el Presidente fija el salario por decreto</b> ponderando la meta de inflación
+        del Banco de la República, la productividad acordada, la contribución de los salarios al ingreso nacional, el crecimiento
+        del PIB y el IPC. Así ocurrió para 2026 (<a class="footnote-link" href="https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=192181" target="_blank" rel="noopener">Decreto 159 de 2026</a>).</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">1° de enero de 2027</div>
+        <div class="tl-badges"><span class="badge legal">Vigencia</span></div>
+        <p><b>Entra en vigor el nuevo salario mínimo</b> y el auxilio de transporte en todo el país.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTORES -->
+  <section id="actores">
+    <h2 class="section-title"><span class="num">03</span> Los actores de la mesa</h2>
+    <p class="section-sub">
+      La Comisión Permanente de Concertación de Políticas Salariales y Laborales es tripartita: cinco representantes por
+      cada sector (Gobierno, empleadores y trabajadores).
+    </p>
+    <div class="actors">
+      <div class="actor gov">
+        <span class="tag">Gobierno Nacional</span>
+        <h3>Preside la Comisión</h3>
+        <ul>
+          <li>Ministra del Trabajo (preside la comisión)</li>
+          <li>Ministerios de Hacienda, Comercio y Agricultura</li>
+          <li>Director del DNP</li>
+        </ul>
+        <div class="quote">El Gobierno de De la Espriella condicionó el aumento a «escuchar antes de decidir», con base en
+        argumentos técnicos y jurídicos, y señaló que la discusión se guiará por <b>inflación más productividad</b>.</div>
+      </div>
+      <div class="actor grem">
+        <span class="tag">Gremios empresariales</span>
+        <h3>ANDI · Fenalco · Asobancaria · SAC · Acopi · Consejo Gremial</h3>
+        <ul>
+          <li>Presentan propuestas y salvedades por escrito</li>
+          <li>Fenalco además demanda la nulidad del decreto 2026 ante el Consejo de Estado</li>
+        </ul>
+        <div class="quote"><b>Fenalco</b> (Jaime Alberto Cabal) sostiene que el aumento «técnicamente no debe superar inflación +
+        productividad» y pide que el fallo judicial precise las reglas para 2027 (<a class="footnote-link" href="https://www.lafm.com.co/economia/fenalco-insiste-en-anular-decreto-del-salario-minimo-2026-413395" target="_blank" rel="noopener">La FM</a>).</div>
+      </div>
+      <div class="actor sind">
+        <span class="tag">Centrales sindicales</span>
+        <h3>CUT · CGT · CTC</h3>
+        <ul>
+          <li>Acompañadas por confederaciones de pensionados (CPC, CDP)</li>
+          <li>Suelen anclar sus peticiones a la recuperación del poder adquisitivo</li>
+        </ul>
+        <div class="quote">En la ronda de 2026 el aumento se fijó en 23% por decreto al no lograrse acuerdo en la mesa;
+        para 2027 las centrales aún no han presentado cifra oficial.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUENTES -->
+  <section id="fuentes">
+    <h2 class="section-title"><span class="num">04</span> Fuentes y notas metodológicas</h2>
+    <ul class="src-list" role="list">
+      <li>Salario mínimo y auxilio de transporte 2026: <a href="https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=192181" target="_blank" rel="noopener">Decreto 159 de 2026</a> y Decretos 1469 y 1470 de 2025 (<a href="https://www.cancilleria.gov.co/normograma/compilacion/docs/pdf/decreto_1470_2025.pdf" target="_blank" rel="noopener">texto del auxilio de transporte</a>).</li>
+      <li>Plazos de concertación y parámetros del decreto: <a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=4928" target="_blank" rel="noopener">Ley 278 de 1996, art. 8° (Función Pública)</a>.</li>
+      <li>IPC septiembre 2026 (6,29%): <a href="https://www.infobae.com/colombia/2026/10/07/salario-minimo-de-2027-el-dane-revelo-el-dato-de-inflacion-de-septiembre-de-2026-clave-para-el-aumento-del-sueldo-para-millones-de-trabajadores/" target="_blank" rel="noopener">reporte del DANE vía Infobae</a> y <a href="https://www.elespectador.com/economia/inflacion-en-colombia-los-alimentos-empujaron-los-precios-al-consumidor-en-septiembre/" target="_blank" rel="noopener">El Espectador</a>.</li>
+      <li>Proyecciones de inflación (6,9% en 2026 y 4,3% en 2027): <a href="https://www.larepublica.co/economia/informe-de-politica-monetaria-del-banco-de-la-republica-de-julio-de-2026-4451284" target="_blank" rel="noopener">Informe de Política Monetaria del Banco de la República (julio 2026)</a>.</li>
+      <li>Productividad (PTF 0,91%): <a href="https://www.suin-juriscol.gov.co/clp/contenidos.dll/Decretos/30055940?fn=document-frame.htm$f=templates$3.0" target="_blank" rel="noopener">considerandos del Decreto 1469 de 2025 (datos DANE)</a>.</li>
+      <li>Aportes patronales y exoneraciones: <a href="https://contarte.incp.org.co/wp-content/uploads/2026/01/Novedades-laborales-2026.pdf" target="_blank" rel="noopener">Novedades laborales 2026 (INC)</a>, <a href="https://www.buk.co/blog/costo-real-de-un-empleado-en-colombia-2026" target="_blank" rel="noopener">Buk</a> y <a href="https://blog.alegra.com/colombia/costo-de-contratar-un-empleado-con-salario-minimo/" target="_blank" rel="noopener">Alegra</a>.</li>
+      <li>Apertura de la negociación 2027 y calendario: <a href="https://www.eltiempo.com/economia/finanzas-personales/salario-minimo-2027-gobierno-empresas-y-sindicatos-tuvieron-la-primera-reunion-para-revisar-el-alza-que-acordaron-3590648" target="_blank" rel="noopener">El Tiempo</a>, <a href="https://www.elcolombiano.com/negocios/salario-minimo-2027-alza-colombia-fechas-negociacion-MI41858545" target="_blank" rel="noopener">El Colombiano</a> y <a href="https://www.pulzo.com/economia/salario-minimo-en-colombia-2027-gobierno-y-gremios-inician-debate-y-mesas-tecnicas-PP5321952A" target="_blank" rel="noopener">Pulzo</a>.</li>
+      <li>Posición de Fenalco: <a href="https://www.lafm.com.co/economia/fenalco-insiste-en-anular-decreto-del-salario-minimo-2026-413395" target="_blank" rel="noopener">La FM</a> y <a href="https://www.larepublica.co/economia/fenalco-reitero-solicitud-al-consejo-de-estado-para-que-se-anule-decreto-del-minimo-4499302" target="_blank" rel="noopener">La República</a>.</li>
+      <li>Base prestacional del auxilio de transporte (prima, cesantías e intereses sí; vacaciones y seguridad social no): <a href="https://www.gerencie.com/prestaciones-sociales.html" target="_blank" rel="noopener">Gerencie</a> y <a href="https://actualicese.com/auxilio-de-transporte/" target="_blank" rel="noopener">Actualícese</a> (art. 7 de la Ley 1ª de 1963).</li>
+      <li>Escenarios de analistas: <a href="https://www.elpais.com.co/colombia/salario-minimo-2027-expertos-financieros-preven-un-aumento-de-148827-de-acuerdo-a-la-variabilidad-de-la-inflacion-0613.html" target="_blank" rel="noopener">Davivienda (8,5%) vía El País</a>, <a href="https://www.portafolio.co/economia/salario-minimo-de-2027-se-perfila-entre-9-y-10-mientras-arranca-la-negociacion-entre-gobierno-y-sectores-503771" target="_blank" rel="noopener">Credicorp (9%–10%) vía Portafolio</a>.</li>
+    </ul>
+    <div class="disclaimer">
+      <b>Herramienta educativa.</b> Este simulador usa cifras oficiales vigentes (octubre de 2026) y supuestos editables; no constituye
+      asesoría legal, laboral ni financiera. El costo patronal es una estimación con provisiones mensualizadas: prima y cesantías
+      (con sus intereses) se calculan sobre salario más auxilio de transporte; las vacaciones, sobre el salario base. No incluye
+      sobresueldos, convenios colectivos ni otras prestaciones extralegales. El IPC observado proviene del DANE; las proyecciones
+      de inflación son del Banco de la República. La ganancia real usa la fórmula (1 + incremento) / (1 + inflación 2027) − 1.
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    Simulador del salario mínimo 2027 · Colombia · Datos a octubre de 2026 ·
+    Salario base 2026: $1.750.905 (Decreto 159 de 2026, transitorio) · Auxilio de transporte: $249.095 (Decreto 1470 de 2025).
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
